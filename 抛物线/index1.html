@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+        <style>
+        /*给body进行flex布局，实现垂直居中*/
+        body {
+            min-height: 100vh;
+            /*高度适应浏览器高度*/
+            display: flex;
+            justify-content: center;
+            /*水平居中*/
+            align-items: center;
+            /*垂直居中*/
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /*设置运动区域*/
+        #bg {
+            width: 600px;
+            height: 600px;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            /*给div设置圆角*/
+            padding: 20px;
+        }
+
+        /*生成小球，并定义初始位置*/
+        #ball {
+            border-radius: 50%;
+            /*可把正方形变成圆形，50%即可*/
+            background: #e0e0e0;
+            width: 60px;
+            height: 60px;
+            position: relative;
+            top: 30px;
+            left: 30px;
+        }
+
+        button {
+            width: 80px;
+            height: 30px;
+            border-radius: 4px;
+            color: #fff;
+            background: #AA7ECC;
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="bg">
+            此时水平速度为：4<button id="btn">演示</button> 
+            <div id="ball"></div>
+    </div>
+    <script type="text/javascript">
+        // 利用物理学公式实现的抛物线
+    	document.getElementById("btn").addEventListener('click',start);
+        function start() {
+            var x, y, k = 1, t;
+            //x是水平方向移动路径；y是垂直方向的；k记录次数，可与0.1相乘得时间；t记录setInterval的返回id，用于clearInterval
+            t = setInterval(function () {
+            	console.log(23232);
+                x = 30 + 0.1 * k * 4 * 100;
+                //S(x)=S(0)+t*V(x)，100是自定义的米到px转换数
+
+                y = 30 + 1 / 2 * 9.8 * 0.1 * k * 0.1 * k * 100;//S(y)=S(0)+1/2*g*t*t
+                var j = document.getElementById("ball");
+                //通过修改小球的top和left，修改小球的位置
+                j.style.top = y+'px';
+                j.style.left = x+'px';
+                k++;//每次调用，k自增，简化计算
+                if (x > 480 || y > 480) {
+                    clearInterval(t);//小球达到边界时，清除setInterval
+                }
+            }, 100);//每0.1s调用一次setInterval的function
+        }
+    </script>
+</body>
+
+</html>

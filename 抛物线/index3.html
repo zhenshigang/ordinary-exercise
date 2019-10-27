@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            position: relative;
+            width: 200px;
+            height: 500px;
+            border: 1px solid #dedede;
+        }
+
+        .add {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background: greenyellow;
+        }
+
+        .ball {
+            width: 10px;
+            height: 10px;
+        }
+
+        .cart {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background: rgb(129, 214, 2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="add"></div>
+        <div class="cart"></div>
+    </div>
+    <script src="./velocity.js"></script>
+    <script>
+        var add = document.querySelector('.add');
+        var wrapper = document.querySelector('.wrapper');
+        var cart = document.querySelector('.cart');
+        add.onclick = function (e) {
+            var ball = document.createElement('div');
+            wrapper.appendChild(ball)
+            ball.id = "ball"
+            ball.style.width = '10px';
+            ball.style.height = '10px';
+            ball.className = 'add';
+            ball.style.top = e.pageY + 'px';
+            ball.style.left = e.pageX + 'px';
+            var ball = document.querySelector('#ball');
+
+            Velocity(ball, {
+                translateX: -add.offsetLeft + 10 + 'px'
+            }, {
+                duration: 800,
+                easing: 'linear'
+            })
+            setTimeout(() => {
+                Velocity(ball, {
+                    translateY: cart.offsetTop - 40 + 'px'
+                }, {
+                    duration: 800,
+                    easing: 'ease-in',
+                    queue: false,
+                    complete: function () {
+                        wrapper.removeChild(ball);
+                        Velocity(cart, {
+                            scale: 1.1
+                        }, {
+                            duration: 200,
+                            complete: function () {
+                                Velocity(cart,
+                                    'reverse'
+                                    , {
+                                        duration: 200
+                                    })
+                            }
+                        })
+                    }
+                });
+            }, 0);
+        }
+    </script>
+</body>
+
+</html>

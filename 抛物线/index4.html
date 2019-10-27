@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>抛物线</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            position: relative;
+        }
+
+        .container {
+            position: absolute;
+            top: 200px;
+            left: 500px;
+            width: 100px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background: #f3f3f3;
+        }
+
+        .obj {
+            position: absolute;
+            top: 400px;
+            left: 800px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #ccc;
+        }
+
+        .x {
+            position: absolute;
+            top: 415px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #ccc;
+        }
+
+        .y {
+            position: absolute;
+            top: 0;
+            left: 815px;
+            width: 1px;
+            height: 100%;
+            background: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container"></div>
+    <div class="obj" id="obj"></div>
+    <i class="x">x轴</i>
+    <i class="y">y轴</i>
+    <script>
+        function funparabola(obj, container, options) {
+            //关于传参覆盖问题 涉及3个对象 defaults、options、params
+            //option是否传入判断、option与defaults求并集，option优先
+            //参数处理
+            var defaults = {
+                speed: 3.2,//速度 100px/s 按60帧每秒换算 每帧(100/60)px/s
+                curvature: 0.001,//斜率
+                progress: function () { },
+                complete: function () { }//回调函数
+            };
+            options = options || {};
+            var params = {};
+            for (var key in defaults) {
+                params[key] = options[key] || defaults[key];
+            };
+
+            //关于链式调用
+            var exports = {
+                positions: function () { return this },
+                mark: function () { return this },
+                move: function () { return this },
+                init: function () { return this }
+            };
+            //css3math
+            var moveStyle = "margin";
+            var testDiv = document.createElement("div");
+            var transform = [];
+            //IE9及以上区分 div元素识别oninput属性
+            if ("oninput" in testDiv) {
+                //forEach函数，调用数组每个元素，并将元素传递给回调函数
+                ["", "ms", "moz", "webkit"].forEach(function (prefix) {
+                    transform.push(prefix + (prefix ? "T" : "t") + "ransform");
+                });
+                //alert(transform);
+                //for in语句遍历数组或者对象属性
+                for (var key in transform) {
+                    if (transform[key] in testDiv.style) {
+                        moveStyle = transform[key];
+                    }
+                }
+                //alert(moveStyle);
+            }
+            //获取元素坐标
+            //定义变量
+            var a = params.curvature, b = 0;
+            var objRec, containerRec, objRel, containerCenter;
+            var rate = 1;
+            exports.positions = function () {
+                //通过getBoundingClientRect()方法可以获得元素元素相对于窗口位置 top/right/bottom/left 在现在浏览器中还能获取到元素宽度
+                objRec = obj.getBoundingClientRect();
+                containerRec = container.getBoundingClientRect();
+
+                //滚动条滚动值 存在兼容性
+                //可使用jquery $(window).scrollTop()方法代替
+                var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+
+                //元素中心坐标
+                var objCenter = {
+                    //获取元素宽高：clientWidth,clientHeight
+                    x: objRec.left + obj.clientWidth / 2 + scrollLeft,
+                    y: objRec.top + obj.clientHeight / 2 + scrollTop
+                };
+                var containerCenter = {
+                    x: containerRec.left + container.clientWidth / 2 + scrollLeft,
+                    y: containerRec.top + container.clientHeight / 2 + scrollTop
+                };
+
+                //转换坐标中心 以移动对象为中心
+                objRel = {
+                    x: 0,
+                    y: 0
+                };
+                containerRel = {
+                    x: containerCenter.x - objCenter.x,
+                    y: objCenter.y - containerCenter.y
+                };
+
+                //计算曲线 y=a*x^2+b*x+c
+                b = (containerRel.y - a * containerRel.x * containerRel.x) / containerRel.x;
+                return this;
+            }
+
+            //移动元素
+            exports.move = function () {
+                //计算每次重绘元素x、y方向的偏移
+                //沿二次曲线运动速度是speed，那么(speed.x)²+(speed.y)²=(speed)²
+                var startx = 0;
+                var tangent = 2 * a * startx + b;
+                if (containerRel.x < 0) {
+                    rate = -1;
+                }
+
+                var step = function () {
+                    if (Math.abs(containerRel.x - startx) > 2) {
+                        startx = startx + rate * Math.sqrt(params.speed * params.speed / (tangent * tangent + 1));
+                        var x = startx, y = (a * x * x + b * x);
+                        var timepath = setTimeout(step, 17);
+                    } else {
+                        x = containerRel.x;
+                        y = containerRel.y;
+                    }
+                    // x, y目前是坐标，需要转换成定位的像素值
+                    if (moveStyle == "margin") {
+                        obj.style.marginLeft = x + "px";
+                        obj.style.marginTop = rate * y + "px";
+                    } else {
+                        obj.style[moveStyle] = "translate(" + [x + "px", rate * y + "px"].join() + ")";
+                    }
+                }
+
+                step();
+
+            }
+            //初始化方法
+            exports.init = function () {
+                this.positions();
+            }
+
+            return exports;
+        }
+
+        var container = document.getElementById("container");
+        var obj = document.getElementById("obj");
+        obj.onclick = function () {
+            funparabola(obj, container).positions().move();
+        }
+    </script>
+</body>
+
+</html>
