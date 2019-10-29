@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <meta charset="utf-8">
+  <title>防抖</title>
+</head>
+
+<body>
+  <button id="btn">点击</button>
+  <script type="text/javascript">
+    // 防抖动函数
+    function debounce(fn, wait = 100) {
+      let timer;
+      return function () {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          fn.apply(this, null)
+        }, wait)
+      }
+    }
+    function test() {
+      console.log('fangdou')
+    }
+
+    function debounces(fn,wait=900){
+     let timer=null;
+     return function(){
+       if(timer){
+         clearTimeout(timer)
+       }
+       timer = setTimeout(()=>{
+         fn.apply(this,null)
+       },wait)
+     }
+    }
+    document.getElementById('btn').addEventListener('click', debounce(test, 500))
+  </script>
+</body>
+
+</html>
