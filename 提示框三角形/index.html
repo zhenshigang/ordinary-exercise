@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>提示框三角形</title>
+    <style type="text/css">
+    .chat-msg {
+        width: 300px;
+        height: 80px;
+        border: 1px solid #ccc;
+        position: relative;
+        filter: drop-shadow(0 0 2px #999);
+        background-color: #fff;
+    }
+
+    .chat-msg:before {
+        content: '';
+        position: absolute;
+        left: -10px;
+        top: 34px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-right: 10px solid #ccc;
+    }
+
+    .chat-msg:after {
+        content: '';
+        position: absolute;
+        left: -8px;
+        top: 34px;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-right: 10px solid #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="chat-msg">
+        hi,亲
+    </div>
+    <script type="text/javascript" src="./jquery.js"></script>
+    <script type="text/javascript">
+   
+    </script>
+</body>
+
+</html>

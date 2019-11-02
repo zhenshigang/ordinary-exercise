@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>匀速移动效果</title>
+    <style type="text/css">
+    div.item {
+        width: 100px;
+        height: 100px;
+        background: blue;
+        transition: all 2s linear;
+    }
+
+
+
+    .transition {
+        transform: translateX(500px);
+
+    }
+
+
+    </style>
+</head>
+
+<body>
+    <button id="btn">点我测试</button>
+    <div class="item" >
+        </div>
+    <p>请把鼠标指针移动到蓝色的 div 元素上，就可以看到过渡效果。</p>
+    <script type="text/javascript" src="./jquery.js"></script>
+    <script type="text/javascript">
+        $("#btn").click(function(){
+         $('.item').toggleClass('transition')
+        })
+    </script>
+</body>
+
+</html>

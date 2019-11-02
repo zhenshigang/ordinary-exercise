@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>另一种方式禁用</title>
+</head>
+
+<body>
+    <div style="height: 200px;width: 100%;">
+    </div>
+    <div style="text-align: center;">
+        <button id="btn">点我测试</button>
+    </div>
+    <div style="width: 100%;height: 1200px;">这是用开显示滚动条的</div>
+    <script type="text/javascript">
+      document.getElementById('btn').addEventListener('click',function(){
+      	document.body.style.cssText = "overflow-y:hidden;padding-right:17px;";
+      	setTimeout(function(){
+           document.body.style.cssText = "overflow-y:auto;padding-right:0px;";
+      	},2000)
+      });
+    </script>
+</body>
+
+</html>

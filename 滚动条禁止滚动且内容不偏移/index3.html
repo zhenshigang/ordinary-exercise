@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>另一种方式禁用</title>
+    <style type="text/css">
+    .box-lock-test {
+        overflow-y: hidden !important;
+    }
+    </style>
+</head>
+
+<body>
+    <div style="height: 200px;width: 100%;">
+    </div>
+    <div style="text-align: center;">
+        <button id="btn">点我测试</button>
+    </div>
+    <div style="width: 100%;height: 1200px;">这是用开显示滚动条的</div>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+    document.getElementById('btn').addEventListener('click', function() {
+        // var w1 = $(window).width();
+        // $('html').addClass('box-lock-test');
+        // var w2 = $(window).width();
+        // $('html').removeClass('box-lock-test');
+
+        var w1 = $(window).width();
+        $('body').addClass('box-lock-test');
+        var w2 = $(window).width();
+        $('body').removeClass('box-lock-test');
+        // document.documentElement.style.cssText = `overflow-y:hidden;padding-right:${w2-w1}px;`;
+        // setTimeout(function() {
+        //     document.documentElement.style.cssText = "overflow-y:auto;padding-right:0px;";
+        // }, 2000)
+        document.body.style.cssText = `overflow-y:hidden;padding-right:${w2-w1}px;`;
+        setTimeout(function() {
+            document.body.style.cssText = "overflow-y:auto;padding-right:0px;";
+        }, 2000)
+    });
+    </script>
+</body>
+
+</html>

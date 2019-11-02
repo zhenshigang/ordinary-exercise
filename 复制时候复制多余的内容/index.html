@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>复制多余内容</title>
+</head>
+
+<body>
+    <div>
+        复制多余内容复制多余内容复制多余内容复制多余内容复制多余内容复制多余内容复制多余内容复制多余内容复制多余内容
+    </div>
+    <textarea cols="20" rows="10" id="biao1">用户定义的代码区域</textarea>
+    <script type="text/javascript" src="./jquery.js"></script>
+    <script type="text/javascript">
+    $("body").bind('copy', function(e) {
+        if (typeof window.getSelection == "undefined") return; //IE8 及更老的版本不兼容
+
+        var body_element = document.getElementsByTagName('body')[0];
+        var selection = window.getSelection();
+
+        //如果选择是短的内容，让我们不要打扰我们的用户
+        if (("" + selection).length < 30) return;
+
+        //创建一个DIV的可见区域之外
+        //并填写选定的文本
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        body_element.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        //我们需要<pre>标签解决方案
+        //其他的文本在<pre>失去了所有的行符！
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName == "PRE") {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        newdiv.innerHTML += "<br /><br />文章来自: 网站名称()  详文参考：<a href='" +
+            document.location.href + "'>" +
+            document.location.href + "</a>";
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function() { body_element.removeChild(newdiv); }, 200);
+    });
+    </script>
+</body>
+
+</html>
