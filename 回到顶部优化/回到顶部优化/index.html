@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>回到丁部</title>
+    <style type="text/css">
+    div {
+        width: 100px;
+        height: 5000px;
+        border: 1px solid red;
+        text-align: center;
+        line-height: 100px;
+        position: absolute;
+    }
+
+    #go-top {
+        position: fixed;
+        right: 40px;
+        bottom: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="test">
+        这是测试
+    </div>
+    <button id="go-top">回到顶部</button>
+    <script type="text/javascript" src="RequestAnimationFrame.js"></script>
+    <script type="text/javascript" src="tween.js"></script>
+    <script type="text/javascript">
+    var dom = document.getElementById("go-top");
+
+    dom.addEventListener('click', goTop);
+    window.addEventListener('scroll',function(){
+    	scrollTop = document.documentElement.scrollTop
+    })
+    function goTop() {
+        var t = 0, //开始时间
+            b = scrollTop, //开始位置
+            c = -scrollTop, //变化值
+            d = 100; //持续时间
+        var step = function() {
+            var value = Tween.Linear(t, b, c, d);
+            document.documentElement.scrollTop  = value
+            t++;
+            if (t <= d) {
+                // 继续运动
+                requestAnimationFrame(step);
+            } else {
+                // 动画结束
+            }
+        };
+        step();
+    }
+    </script>
+</body>
+
+</html>
