@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='box'>
+        2323
+    </div>
+    <div class="draggable" style="position: absolute;background-color: red;width: 100px;height: 100px;"></div>
+    <style>
+        #box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+        }
+    </style>
+    <script>
+        // var mouseDownX, mouseDownY, initX, initY, flag = false;
+        // const obj = document.getElementById('box')
+        // console.log(obj)
+        // obj.onmousedown = function (e) {
+        //     //鼠标按下时的鼠标所在的X，Y坐标  
+        //     console.log(e.pageX, 9090)
+        //     mouseDownX = e.pageX;
+        //     mouseDownY = e.pageY;
+
+        //     //初始位置的X，Y 坐标  
+        //     initX = obj.offsetLeft;
+        //     initY = obj.offsetTop;
+
+        //     //表示鼠标已按下  
+        //     flag = true;
+        // }
+        // window.onmousemove = function (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     // 确保鼠标已按下  
+        //     if (flag) {
+        //         var mouseMoveX = e.pageX,
+        //             mouseMoveY = e.pageY;
+        //         obj.style.left = parseInt(mouseMoveX) - parseInt(mouseDownX) + parseInt(initX) + "px";
+        //         obj.style.top = parseInt(mouseMoveY) - parseInt(mouseDownY) + parseInt(initY) + "px";
+        //     }
+
+        // }
+        // window.onmouseup = function (e) {
+        //     e.preventDefault();
+        //     e.stopPropagation();
+        //     //标识已松开鼠标  
+        //     flag = false;
+        // }
+
+        class dragDropDom {
+            constructor(id) {
+                this.mouseDownX = 0
+                this.mouseDownY = 0
+                this.initX = 0
+                this.initY = 0
+                this.flag = false // 标记是否滑动
+                this.obj = document.getElementById(id)
+            }
+            createMoveBox() {
+                this.addEvent()
+            }
+
+            addEvent() {
+                this.obj.onmousedown = (e) => {
+                    //鼠标按下时的鼠标所在的X，Y坐标  
+                    this.mouseDownX = e.pageX;
+                    this.mouseDownY = e.pageY;
+
+                    //初始位置的X，Y 坐标  
+                    const {
+                        offsetLeft,
+                        offsetTop
+                    } = this.obj
+                    this.initX = offsetLeft;
+                    this.initY = offsetTop;
+
+                    //表示鼠标已按下  
+                    this.flag = true;
+                }
+                window.onmousemove = (e) => {
+                    this.resetDefaultEvent(e)
+                    // 确保鼠标已按下  
+                    if (this.flag) {
+                        const {pageX, pageY} = e
+                        const left = parseInt(pageX) - parseInt(this.mouseDownX) + parseInt(this.initX) +
+                            "px"
+                        const top = parseInt(pageY) - parseInt(this.mouseDownY) + parseInt(this.initY) +
+                            "px"
+                        this.obj.style.cssText = `left:${left};top:${top}`
+                    }
+
+                }
+                window.onmouseup = (e) => {
+                    this.resetDefaultEvent(e)
+                    //标识已松开鼠标  
+                    this.flag = false;
+                }
+            }
+
+            resetDefaultEvent(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
+        const inst = new dragDropDom('box')
+        inst.createMoveBox()
+        var dragdrop = function () {
+            var dragging = null;
+
+            function handlerEvent(event) {
+                target = event.target;
+                switch (event.type) {
+                    case 'mousedown':
+                        if (target.className.indexOf('draggable') > -1) {
+                            dragging = target;
+                        }
+                        break;
+                    case 'mousemove':
+                        if (dragging !== null) {
+                            dragging.style.left = event.clientX + 'px';
+                            dragging.style.top = event.clientY + 'px';
+                        }
+                        dragging = target;
+                    case 'mouseup':
+                        dragging = null;
+                        break;
+                }
+            }
+            return {
+                enable: function () {
+                    document.addEventListener('mousedown', handlerEvent);
+                    document.addEventListener('mousemove', handlerEvent);
+                    document.addEventListener('mouseup', handlerEvent)
+                },
+                disable: function () {
+                    document.removeEventListener('mousedown', handlerEvent);
+                    document.removeEventListener('mousemove', handlerEvent)
+                    document.removeEventListener('mouseup', handlerEvent)
+
+                }
+            }
+        }();
+        console.log(dragdrop, 'dragdrop')
+        // dragdrop.enable();
+    </script>
+</body>
+
+</html>

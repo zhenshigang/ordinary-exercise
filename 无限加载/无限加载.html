@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端无限加载</title>
+    <style>
+        .parent-div {
+            height: 300px;
+            width: 200px;
+            border: 1px solid red;
+            overflow: auto;
+            padding: 0;
+        }
+
+        .parent-div ol {
+            margin: 0;
+        }
+
+        .parent-div ol li {
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent-div">
+        <ol class="list-box">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+    <script>
+        // const wrapper = document.querySelector('.parent-div');
+        // const listBox = wrapper.querySelector('.list-box');
+        // // eslint-disable-next-line consistent-return
+
+        // function generateFragment() {
+        //     const fragment = document.createDocumentFragment();
+        //     for (let i = 0; i < 10; i++) {
+        //         const li = document.createElement('li');
+        //         li.innerHTML = 'apple' + i;
+        //         fragment.appendChild(li);
+        //     }
+        //     return fragment
+        // }
+        // wrapper.addEventListener('scroll', (e) => {
+        //     const boxHeight = wrapper.clientHeight;
+        //     const {
+        //         scrollTop
+        //     } = e.target;
+        //     const listHeight = listBox.clientHeight;
+        //     if (boxHeight + scrollTop + 10 >= listHeight) {
+        //         console.log(23)
+        //         const dom =
+        //             listBox.appendChild(this.generateFragment())
+        //     }
+        // });
+
+        class noLimitLoad {
+            constructor() {
+                this.pagesize = 10
+                this.wrapper = document.querySelector('.parent-div');
+                this.listBox = this.wrapper.querySelector('.list-box');
+            }
+            generateFragment() {
+                const fragment = document.createDocumentFragment();
+                for (let i = 0; i < this.pagesize; i++) {
+                    const li = document.createElement('li');
+                    li.innerHTML = 'apple' + i;
+                    fragment.appendChild(li);
+                }
+                return fragment
+            }
+
+            addScrollEvent() {
+                this.wrapper.addEventListener('scroll', (e) => {
+                    const boxHeight = this.wrapper.clientHeight;
+                    const {
+                        scrollTop
+                    } = e.target;
+                    const listHeight = this.listBox.clientHeight;
+                    if (boxHeight + scrollTop + 10 >= listHeight) {
+                       this.listBox.appendChild(this.generateFragment())
+                    }
+                });
+            }
+
+            init(){
+                this.addScrollEvent()
+            }
+        }
+
+        const load = new noLimitLoad()
+        load.init()
+    </script>
+</body>
+
+</html>

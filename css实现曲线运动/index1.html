@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>曲线运动</title>
+    <style>
+        .x-container {
+            width: 50px;
+            height: 50px;
+            animation: xMove 2s linear;
+            animation-fill-mode: forwards;
+        }
+
+        .y-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #000;
+            animation: yMove 2s cubic-bezier(.98, .03, .91, .77);
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes xMove {
+            0% {}
+
+            100% {
+                transform: translateX(400px);
+            }
+        }
+
+        @keyframes yMove {
+            0% {}
+
+            100% {
+                transform: translateY(400px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class='x-container'>
+        <div class='y-container'></div>
+    </div>
+</body>
+
+</html>
