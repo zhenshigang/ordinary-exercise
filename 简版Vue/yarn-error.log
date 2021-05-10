@@ -1,0 +1,41 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\zhenshigang\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add webpack-dev-server
+
+PATH: 
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Program Files\Mysql\mysql-5.7.26-winx64\bin;C:\Redis;C:\Program Files\Git\cmd;C:\Python26;C:\Users\zhenshigang\AppData\Local\Android\Sdk\platform-tools;;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Users\zhenshigang\AppData\Local\Microsoft\WindowsApps;C:\Users\zhenshigang\AppData\Local\Programs\Microsoft VS Code\bin;;C:\Users\zhenshigang\AppData\Local\Programs\Fiddler;C:\Users\zhenshigang\AppData\Roaming\npm;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.19.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\zhenshigang\AppData\Local\Yarn\Cache\v6\npm-ms-2.1.2-d09d1f357b443f493382a8eb3ccd183872ae6009-integrity\node_modules\ms\license.md' -> 'C:\Users\zhenshigang\Desktop\github\demo06\node_modules\@babel\core\node_modules\ms\license.md'
+
+npm manifest: 
+  {
+    "name": "webpack-demo6",
+    "version": "1.0.0",
+    "scripts": {
+      "dev": "webpack-dev-server --open",
+      "build": "webpack -p"
+    },
+    "license": "MIT",
+    "devDependencies": {
+      "@babel/core": "^7.7.7",
+      "@babel/preset-env": "^7.7.7",
+      "babel-loader": "^8.0.6",
+      "html-webpack-plugin": "^5.3.1",
+      "webpack-cli": "^3.3.12"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
